@@ -31,16 +31,11 @@ function TabLayout(){
                 borderTopWidth:0,
                 elevation: 0
             }, tabBarItemStyle:{
-                paddingVertical: tabBar.height/2 - tabBar.iconFrame / 1.6
+                // paddingVertical: tabBar.height/2 - tabBar.iconFrame / 1.6
+                paddingVertical: tabBar.itemPaddingVertical
             }, tabBarIconStyle: {
                 width: tabBar.iconFrame, height: tabBar.iconFrame, alignItems: "center"
             }}}>
-            {/* <Tabs.Screen name="index" options={{title:"Home"}}/>
-            <Tabs.Screen name="subscriptions" options={{title:"Subscriptions"}}/>
-            <Tabs.Screen name="insights" options={{title:"Insights"}}/>
-            <Tabs.Screen name="settings" options={{title:"Settings"}}/>
-            <Tabs.Screen name="subscriptions/[id]" options={{href:null}}/> */}
-
             {
                 tabs.map(tab => {
                     return (
