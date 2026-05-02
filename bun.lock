@@ -30,7 +30,7 @@
         "react-native-css": "^3.0.7",
         "react-native-gesture-handler": "~2.28.0",
         "react-native-reanimated": "~4.1.1",
-        "react-native-safe-area-context": "^5.6.0",
+        "react-native-safe-area-context": "5.6.0",
         "react-native-screens": "~4.16.0",
         "react-native-web": "~0.21.0",
         "react-native-worklets": "0.5.1",
@@ -808,7 +808,7 @@
 
     "ee-first": ["ee-first@1.1.1", "", {}, "sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow=="],
 
-    "electron-to-chromium": ["electron-to-chromium@1.5.348", "", {}, "sha512-QC2X59nRlycQQMc4ZXjSVBX+tSgJfgRtcrYHbIZLgOV2dCvefoQGegLR7lLXKgpPpSuVmJU19LMzGrSa2C7k3Q=="],
+    "electron-to-chromium": ["electron-to-chromium@1.5.349", "", {}, "sha512-QsWVGyRuY07Aqb234QytTfwd5d9AJlfNIQ5wIOl1L+PZDzI9d9+Fn0FRale/QYlFxt/bUnB0/nLd1jFPGxGK1A=="],
 
     "emoji-regex": ["emoji-regex@8.0.0", "", {}, "sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A=="],
 
@@ -1422,7 +1422,7 @@
 
     "react-native-reanimated": ["react-native-reanimated@4.1.7", "", { "dependencies": { "react-native-is-edge-to-edge": "^1.2.1", "semver": "^7.7.2" }, "peerDependencies": { "react": "*", "react-native": "0.78 - 0.82", "react-native-worklets": "0.5 - 0.8" } }, "sha512-Q4H6xA3Tn7QL0/E/KjI86I1KK4tcf+ErRE04LH34Etka2oVQhW6oXQ+Q8ZcDCVxiWp5vgbBH6XcH8BOo4w/Rhg=="],
 
-    "react-native-safe-area-context": ["react-native-safe-area-context@5.7.0", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-/9/MtQz8ODphjsLdZ+GZAIcC/RtoqW9EeShf7Uvnfgm/pzYrJ75y3PV/J1wuAV1T5Dye5ygq4EAW20RoBq0ABQ=="],
+    "react-native-safe-area-context": ["react-native-safe-area-context@5.6.0", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-tJas3YOdsuCg3kepCTGF3LWZp9onMbb9Agju2xfs2kRX8d/5TMUPmupBpjerk/B7Tv/zeJnk+qp5neA96Y0otQ=="],
 
     "react-native-screens": ["react-native-screens@4.16.0", "", { "dependencies": { "react-freeze": "^1.0.0", "react-native-is-edge-to-edge": "^1.2.1", "warn-once": "^0.1.0" }, "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-yIAyh7F/9uWkOzCi1/2FqvNvK6Wb9Y1+Kzn16SuGfN9YFJDTbwlzGRvePCNTOX0recpLQF3kc2FmvMUhyTCH1Q=="],
 

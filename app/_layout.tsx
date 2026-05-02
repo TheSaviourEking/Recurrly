@@ -3,10 +3,10 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 
-SplashScreen.preventAutoHideAsync();
-
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts({
+  SplashScreen.preventAutoHideAsync().catch(() => { });
+
+  const [fontsLoaded, fontError] = useFonts({
     "sans-regular": require("../assets/fonts/PlusJakartaSans-Regular.ttf"),
     "sans-bold": require("../assets/fonts/PlusJakartaSans-Bold.ttf"),
     "sans-medium": require("../assets/fonts/PlusJakartaSans-Medium.ttf"),
@@ -14,21 +14,21 @@ export default function RootLayout() {
     "sans-extrabold": require("../assets/fonts/PlusJakartaSans-ExtraBold.ttf"),
     "sans-light": require("../assets/fonts/PlusJakartaSans-Light.ttf"),
   });
-  
-  useEffect(()=> {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
+
+  useEffect(() => {
+    if (fontsLoaded || fontError) {
+      SplashScreen.hideAsync().catch(() => { });
     }
-  }, [fontsLoaded]);
+  }, [fontsLoaded, fontError]);
 
-  if (!fontsLoaded) return null;
+  if (!fontsLoaded && !fontError) return null;
 
-  // return <Stack screenOptions={{headerShown: false}}/>;
+  // return <Stack screenOptions={{ headerShown: false }} />;
 
-   return (
+  return (
     <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
-      <Stack.Screen name="(auth)" options={{ headerShown: false }}/>
-  </Stack>
-   )
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      {/* <Stack.Screen name="(auth)" options={{ headerShown: false }} /> */}
+    </Stack>
+  )
 }
