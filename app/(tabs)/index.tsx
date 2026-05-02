@@ -5,7 +5,7 @@ import { formatCurrency } from "@/lib/utils";
 import dayjs from "dayjs";
 import { styled } from 'nativewind';
 import { useMemo, useState } from "react";
-import { FlatList, Image, Platform, ScrollView, Text, View } from "react-native";
+import { FlatList, Image, Platform, Text, View } from "react-native";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 import ListHeading from "../components/ListHeading";
 import SubscriptionCard from "../components/SubscriptionCard";
@@ -36,16 +36,16 @@ export default function Index() {
 
       <View className="mb-5">
         <ListHeading title="Upcoming" />
-        {/* <FlatList
+        <FlatList
           data={UPCOMING_SUBSCRIPTIONS}
           keyExtractor={(item) => item.id}
           horizontal
           showsHorizontalScrollIndicator={false}
           ListEmptyComponent={<Text className="home-empty-state">No Upcoming renewals yet.</Text>}
           renderItem={({ item }) => <UpcomingSubscriptionCard {...item} />}
-        /> */}
+        />
 
-        {UPCOMING_SUBSCRIPTIONS.length > 0 ? (
+        {/* {UPCOMING_SUBSCRIPTIONS.length > 0 ? (
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -57,7 +57,7 @@ export default function Index() {
           </ScrollView>
         ) : (
           <Text className="home-empty-state text-muted-foreground mt-2">No upcoming renewals yet.</Text>
-        )}
+        )} */}
       </View>
 
       <ListHeading title="All Subscriptions" />
