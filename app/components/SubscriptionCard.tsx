@@ -58,7 +58,7 @@ const SubscriptionCard = ({name, price, currency,icon, billing, color, category,
                      <View className='sub-row'>
                         <View className='sub-row-copy'>
                             <Text className='sub-label'>Status:</Text>
-                            <Text className='sub-value' numberOfLines={1} ellipsizeMode='tail'>{status? formatStatusLabel(status): "Not provided"}</Text>
+                            <Text className='sub-value' numberOfLines={1} ellipsizeMode='tail'>{status?.trim() ? formatStatusLabel(status): "Not provided"}</Text>
                         </View>
                     </View>
                 </View>
