@@ -35,43 +35,35 @@ const SignIn = () => {
       password,
     });
 
+    // If password() returned an error, stop here — Clerk's errors.fields
+    // will surface the message in the UI automatically.
+    if (error) return;
+
     if (signIn.status === 'complete') {
       await signIn.finalize({
-        navigate: ({ session, decorateUrl }) => {
-          if (session?.currentTask) {
-            console.log(session?.currentTask);
-            return;
-          }
-
-          const url = decorateUrl('/(tabs)');
-          if (url.startsWith('http')) {
-            // Only use window.location on web platform
-            if (typeof window !== 'undefined' && window.location) {
-              window.location.href = url;
-            } else {
-              // On native, just use router navigation
-              router.replace('/(tabs)' as Href);
-            }
-          } else {
-            router.replace(url as Href);
-          }
+        navigate: ({ session }) => {
+          if (session?.currentTask) return;
+          router.replace('/(tabs)' as Href);
         },
       });
     } else if (signIn.status === 'needs_second_factor') {
-      // Handle MFA if needed (not implemented in this basic flow)
-      console.log('MFA required');
-    } else if (signIn.status === 'needs_client_trust') {
-      // Send email code for client trust verification
+      // MFA required — mirror the needs_client_trust flow.
       const emailCodeFactor = signIn.supportedSecondFactors.find(
         (factor) => factor.strategy === 'email_code'
       );
-
       if (emailCodeFactor) {
         await signIn.mfa.sendEmailCode();
       }
-    } else {
-      console.error('Sign-in attempt not complete:', signIn);
+    } else if (signIn.status === 'needs_client_trust') {
+      const emailCodeFactor = signIn.supportedSecondFactors.find(
+        (factor) => factor.strategy === 'email_code'
+      );
+      if (emailCodeFactor) {
+        await signIn.mfa.sendEmailCode();
+      }
     }
+    // Any other status: isSignedIn in (auth)/_layout.tsx will redirect
+    // automatically when Clerk's session is established.
   };
 
   const handleVerify = async () => {
@@ -79,33 +71,16 @@ const SignIn = () => {
 
     if (signIn.status === 'complete') {
       await signIn.finalize({
-        navigate: ({ session, decorateUrl }) => {
-          if (session?.currentTask) {
-            console.log(session?.currentTask);
-            return;
-          }
-
-          const url = decorateUrl('/(tabs)');
-          if (url.startsWith('http')) {
-            // Only use window.location on web platform
-            if (typeof window !== 'undefined' && window.location) {
-              window.location.href = url;
-            } else {
-              // On native, just use router navigation
-              router.replace('/(tabs)' as Href);
-            }
-          } else {
-            router.replace(url as Href);
-          }
+        navigate: ({ session }) => {
+          if (session?.currentTask) return;
+          router.replace('/(tabs)' as Href);
         },
       });
-    } else {
-      console.error('Sign-in attempt not complete:', signIn);
     }
   };
 
-  // Show verification screen if client trust is needed
-  if (signIn.status === 'needs_client_trust') {
+  // Show verification screen for MFA and client-trust flows.
+  if (signIn.status === 'needs_client_trust' || signIn.status === 'needs_second_factor') {
     return (
       <SafeAreaView className="auth-safe-area">
         <KeyboardAvoidingView
@@ -277,7 +252,7 @@ const SignIn = () => {
 
             {/* Sign-Up Link */}
             <View className="auth-link-row">
-              <Text className="auth-link-copy">Don't have an account?</Text>
+              <Text className="auth-link-copy">Don&apos;t have an account?</Text>
               <Link href="/(auth)/sign-up" asChild>
                 <Pressable>
                   <Text className="auth-link">Create Account</Text>

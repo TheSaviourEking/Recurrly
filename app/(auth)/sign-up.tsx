@@ -39,7 +39,8 @@ const SignUp = () => {
 
     if (error) return;
 
-    await signUp.verifications.sendEmailCode();
+    const { error: codeError } = await signUp.verifications.sendEmailCode();
+    if (codeError) return;
     setPendingVerification(true);
   };
 
