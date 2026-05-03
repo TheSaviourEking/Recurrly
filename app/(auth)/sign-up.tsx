@@ -1,10 +1,10 @@
 import { useAuth, useSignUp } from '@clerk/expo';
 import { Link, useRouter, type Href } from 'expo-router';
 import { styled } from 'nativewind';
+import { usePostHog } from 'posthog-react-native';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { SafeAreaView as RNSafeAreaView } from 'react-native-safe-area-context';
-import { usePostHog } from 'posthog-react-native';
 
 const SafeAreaView = styled(RNSafeAreaView);
 
@@ -66,7 +66,7 @@ const SignUp = () => {
         },
       });
     } else {
-      console.error('Sign-up attempt not complete:', signUp);
+      console.error('Sign-up attempt not complete', { status: signUp.status });
     }
   };
 
