@@ -4,12 +4,14 @@ import { styled } from 'nativewind';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { SafeAreaView as RNSafeAreaView } from 'react-native-safe-area-context';
+import { usePostHog } from 'posthog-react-native';
 
 const SafeAreaView = styled(RNSafeAreaView);
 
 const SignIn = () => {
   const { signIn, errors, fetchStatus } = useSignIn();
   const router = useRouter();
+  const posthog = usePostHog();
 
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
@@ -40,6 +42,12 @@ const SignIn = () => {
     if (error) return;
 
     if (signIn.status === 'complete') {
+      posthog.identify(emailAddress, {
+        $set: { email: emailAddress },
+      });
+      posthog.capture('user_signed_in', {
+        email: emailAddress,
+      });
       await signIn.finalize({
         navigate: ({ session }) => {
           if (session?.currentTask) return;
@@ -70,6 +78,13 @@ const SignIn = () => {
     await signIn.mfa.verifyEmailCode({ code });
 
     if (signIn.status === 'complete') {
+      posthog.identify(emailAddress, {
+        $set: { email: emailAddress },
+      });
+      posthog.capture('user_signed_in', {
+        email: emailAddress,
+        mfa: true,
+      });
       await signIn.finalize({
         navigate: ({ session }) => {
           if (session?.currentTask) return;
