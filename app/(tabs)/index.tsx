@@ -10,11 +10,13 @@ import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 import ListHeading from "../components/ListHeading";
 import SubscriptionCard from "../components/SubscriptionCard";
 import UpcomingSubscriptionCard from "../components/UpcomingSubscriptionCard";
+import { usePostHog } from "posthog-react-native";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
 export default function Index() {
   const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<string|null>();
+  const posthog = usePostHog();
 
     const ListHeader = useMemo(() => (
     <>
@@ -75,8 +77,19 @@ export default function Index() {
             return (
               <SubscriptionCard
                 {...item}
-                expanded={expandedSubscriptionId === item.id} 
-                onPress={()=> setExpandedSubscriptionId((currentId) => currentId === item.id ? null: item.id)}
+                expanded={expandedSubscriptionId === item.id}
+                onPress={() => {
+                  const isExpanding = expandedSubscriptionId !== item.id;
+                  setExpandedSubscriptionId((currentId) => currentId === item.id ? null : item.id);
+                  if (isExpanding) {
+                    posthog.capture('subscription_card_expanded', {
+                      subscription_id: item.id,
+                      subscription_name: item.name,
+                      category: item.category,
+                      billing: item.billing,
+                    });
+                  }
+                }}
               />
             )
           }}

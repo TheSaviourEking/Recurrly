@@ -4,6 +4,7 @@ import { styled } from 'nativewind';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { SafeAreaView as RNSafeAreaView } from 'react-native-safe-area-context';
+import { usePostHog } from 'posthog-react-native';
 
 const SafeAreaView = styled(RNSafeAreaView);
 
@@ -11,6 +12,7 @@ const SignUp = () => {
   const { signUp, errors, fetchStatus } = useSignUp();
   const { isSignedIn } = useAuth();
   const router = useRouter();
+  const posthog = usePostHog();
 
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
@@ -50,6 +52,13 @@ const SignUp = () => {
     });
 
     if (signUp.status === 'complete') {
+      posthog.identify(signUp.emailAddress ?? '', {
+        $set: { email: signUp.emailAddress },
+        $set_once: { signup_date: new Date().toISOString() },
+      });
+      posthog.capture('user_signed_up', {
+        email: signUp.emailAddress,
+      });
       await signUp.finalize({
         navigate: ({ session }) => {
           if (session?.currentTask) return;
